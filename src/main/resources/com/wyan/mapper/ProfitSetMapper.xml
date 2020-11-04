@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyan.mapper.ProfitSetMapper">
+
+  <select id="findAllProfitSet" resultType="com.wyan.pojo.ProfitSet">
+    select id ,agent_level  agentLevel,profit_radio profitRadio from profit_set
+  </select>
+  <insert id="save" parameterType="com.wyan.pojo.ProfitSet">
+    insert into profit_set values( #{id} ,#{agentLevel},#{profitRadio})
+  </insert>
+  <select id="update" parameterType="com.wyan.pojo.ProfitSet">
+    update profit_set set profit_radio=#{profitRadio} where  agent_level=#{agentLevel}
+  </select>
+  <select id="findOneByLevel" parameterType="int" resultType="com.wyan.pojo.ProfitSet">
+    select id ,agent_level  agentLevel,profit_radio profitRadio from profit_set where agent_level = #{level}
+  </select>
+
+</mapper>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyan.mapper.TbActiveLogMapper">
+  <resultMap id="BaseResultMap" type="com.wyan.pojo.TbActiveLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="hits" jdbcType="INTEGER" property="hits" />
+    <result column="add_time" jdbcType="VARCHAR" property="addTime" />
+    <result column="add_day" jdbcType="VARCHAR" property="addDay" />
+    <result column="add_month" jdbcType="VARCHAR" property="addMonth" />
+    <result column="add_year" jdbcType="VARCHAR" property="addYear" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, ip, hits, add_time, add_day, add_month, add_year
+  </sql>
+  <select id="selectByExample" parameterType="com.wyan.pojo.TbActiveLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_active_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_active_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_active_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyan.pojo.TbActiveLogExample">
+    delete from tb_active_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyan.pojo.TbActiveLog">
+    insert into tb_active_log (id, ip, hits, 
+      add_time, add_day, add_month, 
+      add_year)
+    values (#{id,jdbcType=BIGINT}, #{ip,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, 
+      #{addTime,jdbcType=VARCHAR}, #{addDay,jdbcType=VARCHAR}, #{addMonth,jdbcType=VARCHAR}, 
+      #{addYear,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyan.pojo.TbActiveLog">
+    insert into tb_active_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="hits != null">
+        hits,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="addDay != null">
+        add_day,
+      </if>
+      <if test="addMonth != null">
+        add_month,
+      </if>
+      <if test="addYear != null">
+        add_year,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null">
+        #{hits,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=VARCHAR},
+      </if>
+      <if test="addDay != null">
+        #{addDay,jdbcType=VARCHAR},
+      </if>
+      <if test="addMonth != null">
+        #{addMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="addYear != null">
+        #{addYear,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyan.pojo.TbActiveLogExample" resultType="java.lang.Long">
+    select count(*) from tb_active_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_active_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hits != null">
+        hits = #{record.hits,jdbcType=INTEGER},
+      </if>
+      <if test="record.addTime != null">
+        add_time = #{record.addTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addDay != null">
+        add_day = #{record.addDay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addMonth != null">
+        add_month = #{record.addMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addYear != null">
+        add_year = #{record.addYear,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_active_log
+    set id = #{record.id,jdbcType=BIGINT},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      hits = #{record.hits,jdbcType=INTEGER},
+      add_time = #{record.addTime,jdbcType=VARCHAR},
+      add_day = #{record.addDay,jdbcType=VARCHAR},
+      add_month = #{record.addMonth,jdbcType=VARCHAR},
+      add_year = #{record.addYear,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyan.pojo.TbActiveLog">
+    update tb_active_log
+    <set>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null">
+        hits = #{hits,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=VARCHAR},
+      </if>
+      <if test="addDay != null">
+        add_day = #{addDay,jdbcType=VARCHAR},
+      </if>
+      <if test="addMonth != null">
+        add_month = #{addMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="addYear != null">
+        add_year = #{addYear,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyan.pojo.TbActiveLog">
+    update tb_active_log
+    set ip = #{ip,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=VARCHAR},
+      add_day = #{addDay,jdbcType=VARCHAR},
+      add_month = #{addMonth,jdbcType=VARCHAR},
+      add_year = #{addYear,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

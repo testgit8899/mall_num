@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>管理分类号码</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport"
+		  content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="../static/style/admin.css" media="all">
+	<style>
+		.kuangs {
+			float: left;
+			width: 450px;
+			overflow: hidden;
+		}
+
+		.dingwei {
+			vertical-align: top;
+			border: 1px solid #CCC;
+			width: 20px;
+			height: 20px;
+			padding: 2px 2px;
+			font-size: 18px;
+			line-height: 16px;
+			color: #F00;
+			font-weight: bold;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+
+<div class="layui-fluid">
+
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="layui-form-item">
+				<div class="layui-row">
+					<div class="layui-inline">
+						<div class="layui-input-inline" style="width:200px;">
+							<select name="province" id="province" lay-verify="required" lay-search
+									lay-filter="province">
+								<option value="">省份</option>
+							</select>
+						</div>
+						<div class="layui-input-inline" style="width:200px;">
+							<select name="city" id="city" lay-verify="required" lay-search lay-filter="city">
+								<option value="">城市</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<div class="layui-input-inline" style="width:100px;">
+							<select name="search_operator" id="wangluo" lay-search="">
+								<option value="">网络</option>
+								<option value="移动网络">移动</option>
+								<option value="联通网络">联通</option>
+								<option value="电信网络">电信</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<div class="layui-input-inline" style="width:100px;">
+							<select name="search_operator" id="share" lay-search="">
+								<option value="">共享状态</option>
+								<option value="1">共享池</option>
+								<option value="0">私有池</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<div class="layui-input-inline" style="width:150px;">
+							<select name="lianghao_type" id="lianghao_type" lay-search="">
+								<option value="">靓号类型</option>
+								<option value="AAA">AAA</option>
+								<option value="AAABAAAB">AAABAAAB</option>
+								<option value="AAAAB">AAAAB</option>
+								<option value="ABCDE">ABCDE</option>
+								<option value="ABABAB">ABABAB</option>
+								<option value="AABBCC">AABBCC</option>
+								<option value="大循环">大循环</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<div class="layui-input-inline" style="width:150px;">
+							<input type="text" name="seller_brand" id="seller_brand" placeholder="运营品牌" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<div class="layui-input-inline">
+							<select name="search_dealtype" id="search_dealtype" lay-search="">
+								<option value="">状态</option>
+								<option value="0">在售</option>
+								<option value="1">已售</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="layui-inline" >
+						<div class="layui-input-inline">
+							<input type="text" name="search_fuzzy" id="search_fuzzy" placeholder="尾号数字"
+								   autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline" style="width:100px;">
+						<div class="layui-input-inline">
+							<button class="layui-btn layui-btn-sm" id="search-btn" data-type="reload">搜索</button>
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+		<table class="layui-hide" id="LAY_table_number" lay-filter="LAY_table_number"></table>
+		<script type="text/html" id="opbar">
+			<button type="button" class="layui-btn layui-btn-sm layui-btn-warm" lay-event="edit">
+				<i class="layui-icon">&#xe642;编辑</i>
+			</button>
+			<button type="button" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">
+				<i class="layui-icon">&#xe640;删除</i>
+			</button>
+		</script>
+		<script type="text/html" id="toolbar">
+			<div class="layui-btn-container">
+				<button class="layui-btn layui-btn-normal" lay-event="addnumber">新增号码</button>
+				<button class="layui-btn layui-btn-warm" lay-event="importnumber">批量导入</button>
+				<button class="layui-btn layui-btn-danger" lay-event="deleteAll">批量删除</button>
+			</div>
+		</script>
+
+	</div>
+</div>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="../static/layui/layui.js"></script>
+<script src="../static/lib/citydata.js"></script>
+<script>
+
+
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#LAY_table_number',
+            url: '../haoma/search.do?share=0',
+            method:'post',
+            toolbar: '#toolbar', //开启头部工具栏，并为其绑定左侧模板
+            defaultToolbar: ['exports','exportsall','filter', 'print'],
+            title: '号码表',
+            id: 'numberReload',
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    field: 'status',
+                    title: '状态'
+                }, {
+                    field: 'cellNum',
+                    title: '号码'
+                },  {
+                    field: 'type',
+                    title: '类型'
+                },{
+                    field: 'cityName',
+                    title: '归属地'
+                }, {
+                    field: 'wangluo',
+                    title: '网络'
+                }, {
+                    field: 'sellerBrand',
+                    title: '运营品牌'
+                }, {
+                    field: 'price',
+                    title: '底价'
+                }, {
+                    field: 'salePrice',
+                    title: '售价'
+                }, {
+                    field: 'agentPrice',
+                    title: '代理价'
+                }, {
+                    field: 'huafei',
+                    title: '话费'
+                }, {
+                    field: 'dixiao',
+                    title: '低消'
+                }, {
+                    field: 'infomation',
+                    title: '资费说明'
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#opbar'
+                }]
+            ],
+            page: true,
+            limits: [15,20,30]
+        });
+
+        var $ = layui.$,
+            active = {
+                reload: function () {
+                    var province = $("#province");
+                    var city = $("#city");
+                    var wangluo = $('#wangluo');
+                    var type = $('#lianghao_type');
+                    var seller_brand = $('#seller_brand');
+                    var search_dealtype = $('#search_dealtype');
+                    var search_fuzzy = $('#search_fuzzy');
+                    var share = $('#share');
+                    //执行重载
+                    table.reload('numberReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        },
+                        where: {
+                            provinceName: province.val(),
+                            cityName: city.val(),
+                            wangluo: wangluo.val(),
+                            share: 0,
+                            type: type.val(),
+                            sellerBrand: seller_brand.val(),
+                            status: search_dealtype.val(),
+                            search_fuzzy: search_fuzzy.val(),
+                            share: share.val()
+                        }
+                    }, 'data');
+                }
+            };
+        //搜索按钮点击时间调用重载
+        $('#search-btn').on('click', function () {
+            var type = $(this).data('type');
+            console.log(type);
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //头工具栏事件
+        table.on('toolbar(LAY_table_number)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'deleteAll':
+                    var data = checkStatus.data;
+                    var ids = []
+                    $.each(data, function(p1, p2) {
+                        ids.push(p2.id+'');
+                    });
+                    layer.confirm('真的删除'+ids.length+'条记录么', function() {
+                        console.log(JSON.stringify(ids));
+                        deleteSelectNum(ids);
+                    });
+                    break;
+                case 'importnumber':
+                    layer.open({
+                        type: 2,
+                        title: '批量导入',
+                        content: 'importnumber.html',
+                        maxmin: true,
+                        area: ['40%', '600px']
+                    });
+            }
+        });
+    });
+
+    layui.use('form', function () {
+        var form = layui.form;
+
+        var province = $("#province"),
+            city = $("#city"),
+            district = $("#district");
+
+        //初始将省份数据赋予
+        for (var i = 1; i < cityData.length; i++) {
+            if (cityData[i].parentId == 100000) {
+                addEle(province, cityData[i]);
+            }
+        }
+
+        //赋予完成 重新渲染select
+        form.render('select');
+
+        //向select中 追加内容
+        function addEle(ele, value) {
+            var optionStr = "";
+            optionStr = "<option value=" + value.id +"," + value.name +" >" + value.name + "</option>";
+
+            ele.append(optionStr);
+        }
+
+        //移除select中所有项 赋予初始值
+        function removeEle(ele) {
+            ele.find("option").remove();
+            var optionStar = "<option value="+ ">" + "请选择" + "</option>";
+            ele.append(optionStar);
+        }
+
+        var provinceId;
+        //选定省份后 将该省份的数据读取追加上
+        form.on('select(province)', function (data) {
+            var idAndName = data.value;
+            var arr =  idAndName.split(",");
+            provinceId = arr[0];
+            removeEle(city);
+
+            $.each(cityData, function (i, item) {
+                if (provinceId == item.parentId) {
+                    addEle(city, item);
+                }
+            });
+            //重新渲染select
+            form.render('select');
+        })
+    })
+</script>
+</body>
+</html>

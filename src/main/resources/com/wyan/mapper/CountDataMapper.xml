@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyan.mapper.CountDataMapper">
+  <insert id="save" parameterType="com.wyan.pojo.CountData">
+    insert into count_data values(
+#{id},
+#{totalReviceMoney},
+#{yearReviceMoney},
+#{monthReviceMoney},
+#{totalCostMoney},
+#{yearCostMoney},
+#{monthCostMoney},
+#{userid},
+#{newOrder},
+#{haomaOrder},
+#{reviceMoney},
+#{costMoney},
+#{supplierNum},
+#{totalNum},
+#{totalOrder},
+#{avilableMoney},
+#{countYear},
+#{countMonth},
+#{countDay}
+    )
+  </insert>
+
+  <select id="findByUserId" resultType="com.wyan.pojo.CountData">
+    select * from count_data where userid=#{userid}
+  </select>
+
+  <delete id="deleteByUserId" parameterType="int">
+    delete from count_data where userid=#{userid}
+  </delete>
+
+  <select id="findByLoginUser" resultType="com.wyan.pojo.CountData">
+    select * from count_data where userid=#{userid}
+  </select>
+
+  <update id="updateInfo" parameterType="com.wyan.pojo.CountData">
+    update count_data set avilableMoney=#{avilableMoney} where id=#{id}
+  </update>
+</mapper>

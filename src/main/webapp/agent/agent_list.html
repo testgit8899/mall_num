@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>代理商管理-代理商列表</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="../static/style/admin.css" media="all">
+</head>
+<body>
+
+<div class="layui-fluid">
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="layui-form-item">
+
+
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<input type="text" name="useraccount" id="useraccount" autocomplete="off" class="layui-input" placeholder="输入登录账号">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<select name="status" id="status" lay-search lay-filter="province">
+							<option value="">审核状态</option>
+							<option value="0">等待审核</option>
+							<option value="1">审核通过</option>
+							<option value="2">审核拒绝</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<input type="text" name="phoneNum" id="phoneNum" autocomplete="off" class="layui-input" placeholder="请输入手机号">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<input type="text" name="agentName" id="agentName" autocomplete="off" class="layui-input" placeholder="代理名称">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<button class="layui-btn layuiadmin-btn-list" id="search-btn" data-type="reload" lay-submit lay-filter="LAY-app-contlist-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-card-body">
+			<table id="LAY_table_custom-supplier" lay-filter="LAY_table_custom-supplier"></table>
+
+			<script type="text/html" id="opbar">
+				<button type="button" class="layui-btn layui-btn-sm layui-btn-warm" lay-event="lock">
+					<i class="layui-icon">&#xe640;禁用</i>
+				</button>
+			</script>
+			<script type="text/html" id="toolbar">
+				<div class="layui-btn-container">
+					<button class="layui-btn " lay-event="passCheck">审核通过</button>
+					<button class="layui-btn layui-btn-danger" lay-event="refuseCheck">审核拒绝</button>
+					<button class="layui-btn layui-btn-warm" lay-event="lockUser">账号禁用</button>
+				</div>
+			</script>
+			<script type="text/html" id="supplierState">
+				{{#  if(d.level == 1){ }}
+				一级
+				{{#  } else if(d.level == 2){ }}
+				二级
+				{{#  } else{ }}
+				三级
+				{{#  } }}
+			</script>
+			<script type="text/html" id="agentState">
+				{{#  if(d.state == 0){ }}
+				待审核
+				{{#  } else if(d.state == 1){ }}
+				审核通过
+				{{#  } else if(d.state == 2){ }}
+				审核拒绝
+				{{#  } else if(d.state == 3){ }}
+				账号停用
+				{{#  }  }}
+			</script>
+		</div>
+	</div>
+</div>
+<style>
+	.layui-table-cell {
+		height: auto !important;
+		white-space: normal;
+	}
+</style>
+
+<script src="../static/layui/layui.js?t=1"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+    layui.use('table', function() {
+        var table = layui.table;
+        table.render({
+            elem: '#LAY_table_custom-supplier',
+            url: '../admin/searchAgent.do?roleid=3',
+            method:'post',
+            toolbar: '#toolbar',
+            defaultToolbar: ['filter', 'print'],
+            title: '代理商列表',
+            id: 'supplierReload',
+            cols: [
+                [ {
+                    type: 'checkbox',
+                    fixed: 'left'
+                },{
+                    field: 'useraccount',
+                    title: '会员账号'
+                },{
+                    field: 'realname',
+                    title: '代理名称'
+                },  {
+                    field: 'username',
+                    title: '联系人'
+                }, {
+                    field: 'phonenum',
+                    title: '手机号'
+                }, {
+                    field: 'level',
+                    title: '代理等级',
+                    templet: '#supplierState'
+                }, {
+                    field: 'parentName',
+                    title: '上级代理'
+                },  {
+                    field: 'state',
+                    title: '状态',
+                    templet: '#agentState'
+                }, {
+                    field: 'addTime',
+                    title: '添加时间'
+                }]
+            ],
+            page: true,
+            limits: [10,15,20]
+        });
+
+        var $ = layui.$,
+            active = {
+                reload: function() {
+
+                    var useraccount = $('#useraccount');
+                    var phoneNum = $('#phoneNum');
+                    var agentName = $('#agentName');
+                    var status = $('#status');
+                    //执行重载
+                    table.reload('supplierReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        },
+                        where: {
+                            useraccount: useraccount.val(),
+                            phonenum: phoneNum.val(),
+                            roleid: 3,
+                            realname: agentName.val(),
+							state: status.val()
+                        }
+                    }, 'data');
+                }
+            };
+        //搜索按钮点击时间调用重载
+        $('#search-btn').on('click', function() {
+            var type = $(this).data('type');
+            console.log(type);
+            active[type] ? active[type].call(this) : '';
+        });
+        var ids = [];
+        table.on('checkbox(LAY_table_custom-supplier)', function(obj){
+            if(obj.checked==true){
+                ids.push(obj.data.userid);
+            }
+        });
+        //监听行工具事件
+        table.on('toolbar(LAY_table_custom-supplier)', function(obj) {
+
+            switch (obj.event) {
+                case 'passCheck':
+                    layer.confirm('同意'+ids.length+'位用户的代理入驻?', function() {
+                        modifyUserStatus(ids,1);
+                    });
+                    break;
+                case 'refuseCheck':
+
+                    layer.confirm('拒绝'+ids.length+'位用户的代理申请?', function() {
+                        modifyUserStatus(ids,2);
+                    });
+                    break;
+                case 'lockUser':
+                    layer.confirm('禁止'+ids.length+'位用户的代理操作权限?', function() {
+                        modifyUserStatus(ids,3);
+                    });
+                    break;
+                case 'lock':
+                    var userid=obj.data.userid;
+                    ids.push(userid);
+                    layer.confirm('禁止该用户的代理操作权限?', function() {
+                        modifyUserStatus(ids,3);
+                    });
+                    break;
+
+            }
+        });
+        //监听是否显示
+    });
+
+    function modifyUserStatus(ids,state){
+        $.ajax({
+            "url":"../admin/modifyUserState.do?ids="+ids+"&state="+state,
+            "type":"get",
+            "success":function(response){
+                window.location.reload(); //成功后刷新页面
+            }
+        });
+    }
+
+    function add() {
+        layer.open({
+            type: 2,
+            title: '添加代理商',
+            content: 'addsupplier.html',
+            maxmin: true,
+            area: ['80%', '600px']
+
+        });
+    }
+</script>
+<script>
+    /*$.ajax({
+        "url":"../admin/findAllSeller.do",
+        "type":"get",
+        "dataType":"json",
+        "success":function(response){
+            //循环添加之前清空所有
+            $('#parentName option').not(":first").remove();
+            //循环添加到模块的下拉框
+            $(response).each(function(index,item){
+                var opt = "<option value="+item.userid+">"+item.realname+"</option>";
+                $("#parentName").append(opt);
+            })
+        }
+    });*/
+</script>
+</body>
+</html>

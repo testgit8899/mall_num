@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>提现记录</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../static/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../static/style/admin.css" media="all">
+		<style>
+			.account_info {
+				line-height: 136px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row layui-col-space15">
+				<div class="layui-card layui-col-md12">
+					<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+						<div class="layui-form-item table-search-form">
+							<div class="layui-form-item">
+								<div class="layui-row">
+									<div class="layui-inline">
+										<div class="layui-input-inline" style="width:150px;">
+											<input type="text" name="agentName" id="agentName" placeholder="代理商" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+
+									<div class="layui-inline">
+										<div class="layui-input-inline">
+											<select name="type" id="type" lay-search="">
+												<option value="">提现方式</option>
+												<option value="1">支付宝</option>
+												<option value="2">微信</option>
+												<option value="3">银行卡</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="layui-inline">
+										<div class="layui-input-inline">
+											<select name="state" id="cashState" lay-search="">
+												<option value="">提现状态</option>
+												<option value="0">等待打款</option>
+												<option value="1">已经打款</option>
+												<option value="2">申请驳回</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-inline" style="width:100px;">
+										<div class="layui-input-inline">
+											<button class="layui-btn layui-btn-sm" id="search-btn" data-type="reload">搜索</button>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<table class="layui-hide" id="LAY_table" lay-filter="LAY_table"></table>
+					<script type="text/html" id="opbar">
+						<a class="layui-btn layui-btn-warm " lay-event="addremark">打款</a>
+						<a class="layui-btn layui-btn-danger " lay-event="updateState">拒绝</a>
+					</script>
+					<script type="text/html" id="state">
+						{{#  if(d.state == '0'){ }}
+					    <button class="layui-btn layui-btn-primary layui-btn-xs">等待打款</button>
+					  {{#  } else if(d.state == '1'){ }}
+					    <button class="layui-btn  layui-btn-xs">已打款</button>
+					{{#  } else if(d.state == '2'){ }}
+					  <button class="layui-btn layui-btn-danger layui-btn-xs">拒绝</button>
+					  {{#  } }}
+					</script>
+					<script type="text/html" id="roleType">
+						{{#  if(d.roleType == '2'){ }}
+						<button class="layui-btn layui-btn-normal layui-btn-xs">合作卡商</button>
+						{{#  } else if(d.roleType == '3'){ }}
+						<button class="layui-btn layui-btn-warm layui-btn-xs">代理商</button>
+						{{#  } }}
+					</script>
+					<script type="text/html" id="cashType">
+						{{#  if(d.type == '1'){ }}
+						支付宝
+						{{#  } else if(d.type == '2'){ }}
+						微信
+						{{#  } else if(d.type == '3'){ }}
+						银行卡转账
+						{{#  } }}
+					</script>
+				</div>
+			</div>
+		</div>
+		<script src="../../static/layui/layui.js"></script>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script>
+			layui.use('table', function() {
+				var table = layui.table;
+				table.render({
+					elem: '#LAY_table',
+					url: '../../cashLog/search.do',
+					title: '订单表',
+                    method: 'post',
+					id: 'orderReload',
+					cols: [
+						[{
+							type: 'checkbox',
+							fixed: 'left'
+						}, {
+                            field: 'agentName',
+                            title: '代理名称',
+                        }, {
+                            field: 'roleType',
+                            title: '身份角色',
+                            templet: '#roleType'
+                        }, {
+                            field: 'cashMoney',
+                            title: '提现金额',
+                        }, {
+							field: 'type',
+							title: '提现方式',
+                            templet: '#cashType'
+						}, {
+                            field: 'name',
+                            title: '收款人姓名'
+                        }, {
+                            field: 'account',
+                            title: '收款人账号',
+                        },{
+							field: 'state',
+							title: '提现状态',
+                            templet: '#state'
+						}, {
+                            field: 'applyTime',
+                            title: '申请时间',
+                        }, {
+							field: 'agreeTime',
+							title: '通过时间',
+						},  {
+							fixed: 'right',
+							title: '操作',
+							toolbar: '#opbar',
+							width: 200
+						}]
+					],
+					page: true
+				});
+                var $ = layui.$,
+                    active = {
+                        reload: function() {
+                            var agentName = $('#agentName');
+                            var type = $('#type');
+                            var cashState = $('#cashState');
+
+                            //执行重载
+                            table.reload('orderReload', {
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                },
+                                where: {
+
+                                    agentName: agentName.val(),
+                                    type: type.val(),
+                                    state: cashState.val(),
+
+                                }
+                            }, 'data');
+                        }
+                    };
+                //搜索按钮点击时间调用重载
+                $('#search-btn').on('click', function() {
+                    var type = $(this).data('type');
+                    console.log(type);
+                    active[type] ? active[type].call(this) : '';
+                });
+				//监听行工具事件
+				table.on('tool(LAY_table)', function(obj) {
+					var data = obj.data;
+					if (obj.event === 'addremark') {
+                        layer.open({
+                            type: 2,
+                            title: '打款操作',
+                            content: 'editCash.html?id='+obj.data.id,
+                            maxmin: true,
+                            area: ['80%', '600px']
+
+                        });
+					}
+                    if (obj.event === 'updateState') {
+					    if(obj.data.state==1){
+                            layer.msg('已完成打款，不能拒绝');
+						}else{
+                            $.ajax({
+                                url:"../../cashLog/updateState.do?id="+obj.data.id+"&state=2",
+                                type:"get",
+                                success:function(response){
+                                    if(response.success){
+                                        layer.msg('驳回提现申请');
+                                        window.location.reload();
+                                    }else{
+                                        layer.msg(response.msg);
+                                    }
+                                }
+                            })
+						}
+
+                    }
+
+				});
+			});
+			
+			function applyWithdrawal(){
+				layer.open({
+					type: 2,
+					title: '申请提现',
+					content: 'withdrawal_Form.html',
+					maxmin: true,
+					area: ['50%', '600px']
+				});
+			}
+		</script>
+	</body>
+</html>

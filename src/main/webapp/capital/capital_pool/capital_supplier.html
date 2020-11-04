@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>资金池-供应商</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../static/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../static/style/admin.css" media="all">
+		<style>
+			.account_info {
+				line-height: 136px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-row layui-col-space15">
+						<div class="layui-col-md6">
+							<div class="layui-card">
+								<div class="layui-card-header">资金池 ： 数据统计</div>
+								<div class="layui-card-body">
+									<div carousel-item>
+										<ul class="layui-row layui-col-space10">
+											<li class="layui-col-xs6">
+												<a class="layadmin-backlog-body">
+													<h3>累计总收入</h3>
+													<p><cite id="totalReceive">0</cite></p>
+												</a>
+											</li>
+											<li class="layui-col-xs6">
+												<a class="layadmin-backlog-body">
+													<h3>累计总提现</h3>
+													<p><cite id="totalCost">0</cite></p>
+												</a>
+											</li>
+											<li class="layui-col-xs6">
+												<a class="layadmin-backlog-body">
+													<h3>本年度收入</h3>
+													<p><cite id="yearReceive">0</cite></p>
+												</a>
+											</li>
+											<li class="layui-col-xs6">
+												<a class="layadmin-backlog-body">
+													<h3>本年度提现</h3>
+													<p><cite id="yearCost">0</cite></p>
+												</a>
+											</li>
+											<li class="layui-col-xs6">
+												<a class="layadmin-backlog-body">
+													<h3>本月收入</h3>
+													<p><cite id="monthReceive">0</cite></p>
+												</a>
+											</li>
+											<li class="layui-col-xs6">
+												<a class="layadmin-backlog-body">
+													<h3>本月提现</h3>
+													<p><cite id="monthCost">0</cite></p>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="box" style="font-size: 50px; ">
+									<label style="color: #EEE008;"></label></br>
+									<span>等待提现金额为：<span id="waitcashMoney"></span></span>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-md6">
+							<div class="layui-card">
+								<div class="account_info">
+									<div class="box" style="font-size: 50px; ">
+										<label style="color: #EEE008;">可用余额：</label><span id="yue">0</span> 元</br>
+										<span color="#dfff14" style="color: #00F7DE" >不可用余额:</span> <cite id="waitcash">0</cite>元
+										<button type="button" class="layui-btn layui-btn-danger layui-btn-fluid" onclick="applyWithdrawal()">申请提现</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--<div class="layui-card layui-col-md12">
+					<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+						<div class="layui-form-item table-search-form">
+						</div>
+					</div>
+					<blockquote class="layui-elem-quote">上次提现时间：2020.4.1 15:00</blockquote>
+				</div>-->
+			</div>
+		</div>
+		<script src="../../static/layui/layui.js"></script>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script>
+
+			$.ajax({
+				url: "../../countData/findByLoginUser.do",
+				type: "get",
+				success:function(response){
+				    $("#totalReceive").html(response.totalReviceMoney);
+                    $("#totalCost").html(response.totalCostMoney);
+                    $("#yearReceive").html(response.yearReviceMoney);
+                    $("#yearCost").html(response.yearCostMoney);
+                    $("#monthReceive").html(response.monthReviceMoney);
+                    $("#monthCost").html(response.monthCostMoney);
+                    $("#yue").html(response.avilableMoney);
+                    $("#waitcash").html(response.totalReviceMoney-response.avilableMoney-response.totalCostMoney);
+                    $("#waitcashMoney").html(response.totalReviceMoney-response.avilableMoney-response.totalCostMoney);
+
+				}
+			})
+            layui.use('table', function() {
+
+            });
+			function applyWithdrawal(){
+				layer.open({
+					type: 2,
+					title: '申请提现',
+					content: 'apply_cash.html',
+					maxmin: true,
+					area: ['50%', '600px']
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyan.mapper.TbCashLogMapper">
+  <resultMap id="BaseResultMap" type="com.wyan.pojo.TbCashLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="agent_name" jdbcType="VARCHAR" property="agentName" />
+    <result column="agent_shop" jdbcType="VARCHAR" property="agentShop" />
+    <result column="cash_money" jdbcType="INTEGER" property="cashMoney" />
+    <result column="apply_time" jdbcType="VARCHAR" property="applyTime" />
+    <result column="agree_time" jdbcType="VARCHAR" property="agreeTime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="roleType" jdbcType="INTEGER" property="roleType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="cashImg" jdbcType="VARCHAR" property="cashImg" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, agent_name, agent_shop, cash_money, apply_time, agree_time, state, user_id,type,roleType,name,account,cashImg
+  </sql>
+  <select id="selectByExample" parameterType="com.wyan.pojo.TbCashLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_cash_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_cash_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_cash_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyan.pojo.TbCashLogExample">
+    delete from tb_cash_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyan.pojo.TbCashLog">
+    insert into tb_cash_log (id, agent_name, agent_shop, 
+      cash_money, apply_time, agree_time, 
+      state, user_id,type)
+    values (#{id,jdbcType=BIGINT}, #{agentName,jdbcType=VARCHAR}, #{agentShop,jdbcType=VARCHAR}, 
+      #{cashMoney,jdbcType=INTEGER}, #{applyTime,jdbcType=VARCHAR}, #{agreeTime,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT},#{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyan.pojo.TbCashLog">
+    insert into tb_cash_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="agentName != null">
+        agent_name,
+      </if>
+      <if test="agentShop != null">
+        agent_shop,
+      </if>
+      <if test="cashMoney != null">
+        cash_money,
+      </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
+      <if test="agreeTime != null">
+        agree_time,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="agentName != null">
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentShop != null">
+        #{agentShop,jdbcType=VARCHAR},
+      </if>
+      <if test="cashMoney != null">
+        #{cashMoney,jdbcType=INTEGER},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="agreeTime != null">
+        #{agreeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyan.pojo.TbCashLogExample" resultType="java.lang.Long">
+    select count(*) from tb_cash_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_cash_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.agentName != null">
+        agent_name = #{record.agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentShop != null">
+        agent_shop = #{record.agentShop,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cashMoney != null">
+        cash_money = #{record.cashMoney,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyTime != null">
+        apply_time = #{record.applyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreeTime != null">
+        agree_time = #{record.agreeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_cash_log
+    set id = #{record.id,jdbcType=BIGINT},
+      agent_name = #{record.agentName,jdbcType=VARCHAR},
+      agent_shop = #{record.agentShop,jdbcType=VARCHAR},
+      cash_money = #{record.cashMoney,jdbcType=INTEGER},
+      apply_time = #{record.applyTime,jdbcType=VARCHAR},
+      agree_time = #{record.agreeTime,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyan.pojo.TbCashLog">
+    update tb_cash_log
+    <set>
+      <if test="agentName != null">
+        agent_name = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentShop != null">
+        agent_shop = #{agentShop,jdbcType=VARCHAR},
+      </if>
+      <if test="cashMoney != null">
+        cash_money = #{cashMoney,jdbcType=INTEGER},
+      </if>
+      <if test="applyTime != null">
+        apply_time = #{applyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="agreeTime != null">
+        agree_time = #{agreeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyan.pojo.TbCashLog">
+    update tb_cash_log
+    set agent_name = #{agentName,jdbcType=VARCHAR},
+      agent_shop = #{agentShop,jdbcType=VARCHAR},
+      cash_money = #{cashMoney,jdbcType=INTEGER},
+      apply_time = #{applyTime,jdbcType=VARCHAR},
+      agree_time = #{agreeTime,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findCostMoney" resultType="long" parameterType="map">
+    SELECT SUM(cash_money) costMoney FROM tb_cash_log WHERE state=1
+    <if test="startTime!=null and startTime!=''">
+      and apply_time &gt;= #{startTime}
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and apply_time  &lt;= #{endTime}
+    </if>
+  </select>
+
+  <update id="updateState" parameterType="com.wyan.pojo.TbCashLog">
+    update tb_cash_log set state = #{state} where id =#{id}
+  </update>
+  <update id="updateImg" parameterType="com.wyan.pojo.TbCashLog">
+    update tb_cash_log set cashImg = #{cashImg},state =#{state} where id =#{id}
+  </update>
+ </mapper>

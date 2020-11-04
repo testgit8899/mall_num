@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyan.mapper.TbMenuMapper">
+  <resultMap id="BaseResultMap" type="com.wyan.pojo.TbMenu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="parentid" jdbcType="INTEGER" property="parentid" />
+    <result column="m" jdbcType="CHAR" property="m" />
+    <result column="c" jdbcType="CHAR" property="c" />
+    <result column="a" jdbcType="CHAR" property="a" />
+    <result column="data" jdbcType="CHAR" property="data" />
+    <result column="listorder" jdbcType="INTEGER" property="listorder" />
+    <result column="display" jdbcType="CHAR" property="display" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, parentid, m, c, a, data, listorder, display
+  </sql>
+  <select id="selectByExample" parameterType="com.wyan.pojo.TbMenuExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_menu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyan.pojo.TbMenuExample">
+    delete from tb_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyan.pojo.TbMenu">
+    insert into tb_menu (id, name, parentid, 
+      m, c, a, data, 
+      listorder, display)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=CHAR}, #{parentid,jdbcType=INTEGER}, 
+      #{m,jdbcType=CHAR}, #{c,jdbcType=CHAR}, #{a,jdbcType=CHAR}, #{data,jdbcType=CHAR}, 
+      #{listorder,jdbcType=INTEGER}, #{display,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyan.pojo.TbMenu">
+    insert into tb_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parentid != null">
+        parentid,
+      </if>
+      <if test="m != null">
+        m,
+      </if>
+      <if test="c != null">
+        c,
+      </if>
+      <if test="a != null">
+        a,
+      </if>
+      <if test="data != null">
+        data,
+      </if>
+      <if test="listorder != null">
+        listorder,
+      </if>
+      <if test="display != null">
+        display,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="m != null">
+        #{m,jdbcType=CHAR},
+      </if>
+      <if test="c != null">
+        #{c,jdbcType=CHAR},
+      </if>
+      <if test="a != null">
+        #{a,jdbcType=CHAR},
+      </if>
+      <if test="data != null">
+        #{data,jdbcType=CHAR},
+      </if>
+      <if test="listorder != null">
+        #{listorder,jdbcType=INTEGER},
+      </if>
+      <if test="display != null">
+        #{display,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyan.pojo.TbMenuExample" resultType="java.lang.Long">
+    select count(*) from tb_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_menu
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=CHAR},
+      </if>
+      <if test="record.parentid != null">
+        parentid = #{record.parentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.m != null">
+        m = #{record.m,jdbcType=CHAR},
+      </if>
+      <if test="record.c != null">
+        c = #{record.c,jdbcType=CHAR},
+      </if>
+      <if test="record.a != null">
+        a = #{record.a,jdbcType=CHAR},
+      </if>
+      <if test="record.data != null">
+        data = #{record.data,jdbcType=CHAR},
+      </if>
+      <if test="record.listorder != null">
+        listorder = #{record.listorder,jdbcType=INTEGER},
+      </if>
+      <if test="record.display != null">
+        display = #{record.display,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_menu
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=CHAR},
+      parentid = #{record.parentid,jdbcType=INTEGER},
+      m = #{record.m,jdbcType=CHAR},
+      c = #{record.c,jdbcType=CHAR},
+      a = #{record.a,jdbcType=CHAR},
+      data = #{record.data,jdbcType=CHAR},
+      listorder = #{record.listorder,jdbcType=INTEGER},
+      display = #{record.display,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyan.pojo.TbMenu">
+    update tb_menu
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=CHAR},
+      </if>
+      <if test="parentid != null">
+        parentid = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="m != null">
+        m = #{m,jdbcType=CHAR},
+      </if>
+      <if test="c != null">
+        c = #{c,jdbcType=CHAR},
+      </if>
+      <if test="a != null">
+        a = #{a,jdbcType=CHAR},
+      </if>
+      <if test="data != null">
+        data = #{data,jdbcType=CHAR},
+      </if>
+      <if test="listorder != null">
+        listorder = #{listorder,jdbcType=INTEGER},
+      </if>
+      <if test="display != null">
+        display = #{display,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyan.pojo.TbMenu">
+    update tb_menu
+    set name = #{name,jdbcType=CHAR},
+      parentid = #{parentid,jdbcType=INTEGER},
+      m = #{m,jdbcType=CHAR},
+      c = #{c,jdbcType=CHAR},
+      a = #{a,jdbcType=CHAR},
+      data = #{data,jdbcType=CHAR},
+      listorder = #{listorder,jdbcType=INTEGER},
+      display = #{display,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyan.mapper.TbTaocanMapper">
+  <resultMap id="BaseResultMap" type="com.wyan.pojo.TbTaocan">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="yunyingshang" jdbcType="INTEGER" property="yunyingshang" />
+    <result column="excel_id" jdbcType="INTEGER" property="excelId" />
+    <result column="listorder" jdbcType="INTEGER" property="listorder" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="inputtime" jdbcType="INTEGER" property="inputtime" />
+    <result column="updatetime" jdbcType="INTEGER" property="updatetime" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="hits" jdbcType="INTEGER" property="hits" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.wyan.pojo.TbTaocan">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, yunyingshang, excel_id, listorder, name, inputtime, updatetime, ip, hits
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.wyan.pojo.TbTaocanExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_taocan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.wyan.pojo.TbTaocanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_taocan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_taocan
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_taocan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyan.pojo.TbTaocanExample">
+    delete from tb_taocan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyan.pojo.TbTaocan">
+    insert into tb_taocan (id, yunyingshang, excel_id, 
+      listorder, name, inputtime, 
+      updatetime, ip, hits, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{yunyingshang,jdbcType=INTEGER}, #{excelId,jdbcType=INTEGER}, 
+      #{listorder,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{inputtime,jdbcType=INTEGER}, 
+      #{updatetime,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyan.pojo.TbTaocan">
+    insert into tb_taocan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="yunyingshang != null">
+        yunyingshang,
+      </if>
+      <if test="excelId != null">
+        excel_id,
+      </if>
+      <if test="listorder != null">
+        listorder,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="inputtime != null">
+        inputtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="hits != null">
+        hits,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="yunyingshang != null">
+        #{yunyingshang,jdbcType=INTEGER},
+      </if>
+      <if test="excelId != null">
+        #{excelId,jdbcType=INTEGER},
+      </if>
+      <if test="listorder != null">
+        #{listorder,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="inputtime != null">
+        #{inputtime,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=INTEGER},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null">
+        #{hits,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyan.pojo.TbTaocanExample" resultType="java.lang.Long">
+    select count(*) from tb_taocan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_taocan
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.yunyingshang != null">
+        yunyingshang = #{record.yunyingshang,jdbcType=INTEGER},
+      </if>
+      <if test="record.excelId != null">
+        excel_id = #{record.excelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.listorder != null">
+        listorder = #{record.listorder,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inputtime != null">
+        inputtime = #{record.inputtime,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatetime != null">
+        updatetime = #{record.updatetime,jdbcType=INTEGER},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hits != null">
+        hits = #{record.hits,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tb_taocan
+    set id = #{record.id,jdbcType=INTEGER},
+      yunyingshang = #{record.yunyingshang,jdbcType=INTEGER},
+      excel_id = #{record.excelId,jdbcType=INTEGER},
+      listorder = #{record.listorder,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      inputtime = #{record.inputtime,jdbcType=INTEGER},
+      updatetime = #{record.updatetime,jdbcType=INTEGER},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      hits = #{record.hits,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_taocan
+    set id = #{record.id,jdbcType=INTEGER},
+      yunyingshang = #{record.yunyingshang,jdbcType=INTEGER},
+      excel_id = #{record.excelId,jdbcType=INTEGER},
+      listorder = #{record.listorder,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      inputtime = #{record.inputtime,jdbcType=INTEGER},
+      updatetime = #{record.updatetime,jdbcType=INTEGER},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      hits = #{record.hits,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyan.pojo.TbTaocan">
+    update tb_taocan
+    <set>
+      <if test="yunyingshang != null">
+        yunyingshang = #{yunyingshang,jdbcType=INTEGER},
+      </if>
+      <if test="excelId != null">
+        excel_id = #{excelId,jdbcType=INTEGER},
+      </if>
+      <if test="listorder != null">
+        listorder = #{listorder,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="inputtime != null">
+        inputtime = #{inputtime,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=INTEGER},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null">
+        hits = #{hits,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wyan.pojo.TbTaocan">
+    update tb_taocan
+    set yunyingshang = #{yunyingshang,jdbcType=INTEGER},
+      excel_id = #{excelId,jdbcType=INTEGER},
+      listorder = #{listorder,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      inputtime = #{inputtime,jdbcType=INTEGER},
+      updatetime = #{updatetime,jdbcType=INTEGER},
+      ip = #{ip,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyan.pojo.TbTaocan">
+    update tb_taocan
+    set yunyingshang = #{yunyingshang,jdbcType=INTEGER},
+      excel_id = #{excelId,jdbcType=INTEGER},
+      listorder = #{listorder,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      inputtime = #{inputtime,jdbcType=INTEGER},
+      updatetime = #{updatetime,jdbcType=INTEGER},
+      ip = #{ip,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

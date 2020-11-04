@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyan.mapper.TbCategoryMapper">
+  <resultMap id="BaseResultMap" type="com.wyan.pojo.TbCategory">
+    <id column="catid" jdbcType="INTEGER" property="catid" />
+    <result column="module" jdbcType="VARCHAR" property="module" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="modelid" jdbcType="INTEGER" property="modelid" />
+    <result column="parentid" jdbcType="INTEGER" property="parentid" />
+    <result column="arrparentid" jdbcType="VARCHAR" property="arrparentid" />
+    <result column="child" jdbcType="INTEGER" property="child" />
+    <result column="catname" jdbcType="VARCHAR" property="catname" />
+    <result column="style" jdbcType="VARCHAR" property="style" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="parentdir" jdbcType="VARCHAR" property="parentdir" />
+    <result column="catdir" jdbcType="VARCHAR" property="catdir" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="items" jdbcType="INTEGER" property="items" />
+    <result column="hits" jdbcType="INTEGER" property="hits" />
+    <result column="listorder" jdbcType="INTEGER" property="listorder" />
+    <result column="ismenu" jdbcType="INTEGER" property="ismenu" />
+    <result column="sethtml" jdbcType="INTEGER" property="sethtml" />
+    <result column="letter" jdbcType="VARCHAR" property="letter" />
+    <result column="usable_type" jdbcType="VARCHAR" property="usableType" />
+    <result column="commenttypeid" jdbcType="INTEGER" property="commenttypeid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.wyan.pojo.TbCategoryWithBLOBs">
+    <result column="arrchildid" jdbcType="LONGVARCHAR" property="arrchildid" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+    <result column="setting" jdbcType="LONGVARCHAR" property="setting" />
+    <result column="additional" jdbcType="LONGVARCHAR" property="additional" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    catid, module, type, modelid, parentid, arrparentid, child, catname, style, image, 
+    parentdir, catdir, url, items, hits, listorder, ismenu, sethtml, letter, usable_type, 
+    commenttypeid
+  </sql>
+  <sql id="Blob_Column_List">
+    arrchildid, description, setting, additional
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.wyan.pojo.TbCategoryExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.wyan.pojo.TbCategoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_category
+    where catid = #{catid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_category
+    where catid = #{catid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyan.pojo.TbCategoryExample">
+    delete from tb_category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyan.pojo.TbCategoryWithBLOBs">
+    insert into tb_category (catid, module, type, 
+      modelid, parentid, arrparentid, 
+      child, catname, style, 
+      image, parentdir, catdir, 
+      url, items, hits, listorder, 
+      ismenu, sethtml, letter, 
+      usable_type, commenttypeid, arrchildid, 
+      description, setting, additional
+      )
+    values (#{catid,jdbcType=INTEGER}, #{module,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{modelid,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER}, #{arrparentid,jdbcType=VARCHAR}, 
+      #{child,jdbcType=INTEGER}, #{catname,jdbcType=VARCHAR}, #{style,jdbcType=VARCHAR}, 
+      #{image,jdbcType=VARCHAR}, #{parentdir,jdbcType=VARCHAR}, #{catdir,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{items,jdbcType=INTEGER}, #{hits,jdbcType=INTEGER}, #{listorder,jdbcType=INTEGER}, 
+      #{ismenu,jdbcType=INTEGER}, #{sethtml,jdbcType=INTEGER}, #{letter,jdbcType=VARCHAR}, 
+      #{usableType,jdbcType=VARCHAR}, #{commenttypeid,jdbcType=INTEGER}, #{arrchildid,jdbcType=LONGVARCHAR}, 
+      #{description,jdbcType=LONGVARCHAR}, #{setting,jdbcType=LONGVARCHAR}, #{additional,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyan.pojo.TbCategoryWithBLOBs">
+    insert into tb_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="catid != null">
+        catid,
+      </if>
+      <if test="module != null">
+        module,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="modelid != null">
+        modelid,
+      </if>
+      <if test="parentid != null">
+        parentid,
+      </if>
+      <if test="arrparentid != null">
+        arrparentid,
+      </if>
+      <if test="child != null">
+        child,
+      </if>
+      <if test="catname != null">
+        catname,
+      </if>
+      <if test="style != null">
+        style,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="parentdir != null">
+        parentdir,
+      </if>
+      <if test="catdir != null">
+        catdir,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="items != null">
+        items,
+      </if>
+      <if test="hits != null">
+        hits,
+      </if>
+      <if test="listorder != null">
+        listorder,
+      </if>
+      <if test="ismenu != null">
+        ismenu,
+      </if>
+      <if test="sethtml != null">
+        sethtml,
+      </if>
+      <if test="letter != null">
+        letter,
+      </if>
+      <if test="usableType != null">
+        usable_type,
+      </if>
+      <if test="commenttypeid != null">
+        commenttypeid,
+      </if>
+      <if test="arrchildid != null">
+        arrchildid,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="setting != null">
+        setting,
+      </if>
+      <if test="additional != null">
+        additional,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="catid != null">
+        #{catid,jdbcType=INTEGER},
+      </if>
+      <if test="module != null">
+        #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="modelid != null">
+        #{modelid,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="arrparentid != null">
+        #{arrparentid,jdbcType=VARCHAR},
+      </if>
+      <if test="child != null">
+        #{child,jdbcType=INTEGER},
+      </if>
+      <if test="catname != null">
+        #{catname,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null">
+        #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="parentdir != null">
+        #{parentdir,jdbcType=VARCHAR},
+      </if>
+      <if test="catdir != null">
+        #{catdir,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="items != null">
+        #{items,jdbcType=INTEGER},
+      </if>
+      <if test="hits != null">
+        #{hits,jdbcType=INTEGER},
+      </if>
+      <if test="listorder != null">
+        #{listorder,jdbcType=INTEGER},
+      </if>
+      <if test="ismenu != null">
+        #{ismenu,jdbcType=INTEGER},
+      </if>
+      <if test="sethtml != null">
+        #{sethtml,jdbcType=INTEGER},
+      </if>
+      <if test="letter != null">
+        #{letter,jdbcType=VARCHAR},
+      </if>
+      <if test="usableType != null">
+        #{usableType,jdbcType=VARCHAR},
+      </if>
+      <if test="commenttypeid != null">
+        #{commenttypeid,jdbcType=INTEGER},
+      </if>
+      <if test="arrchildid != null">
+        #{arrchildid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="setting != null">
+        #{setting,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="additional != null">
+        #{additional,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyan.pojo.TbCategoryExample" resultType="java.lang.Long">
+    select count(*) from tb_category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_category
+    <set>
+      <if test="record.catid != null">
+        catid = #{record.catid,jdbcType=INTEGER},
+      </if>
+      <if test="record.module != null">
+        module = #{record.module,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelid != null">
+        modelid = #{record.modelid,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentid != null">
+        parentid = #{record.parentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.arrparentid != null">
+        arrparentid = #{record.arrparentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.child != null">
+        child = #{record.child,jdbcType=INTEGER},
+      </if>
+      <if test="record.catname != null">
+        catname = #{record.catname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.style != null">
+        style = #{record.style,jdbcType=VARCHAR},
+      </if>
+      <if test="record.image != null">
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentdir != null">
+        parentdir = #{record.parentdir,jdbcType=VARCHAR},
+      </if>
+      <if test="record.catdir != null">
+        catdir = #{record.catdir,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.items != null">
+        items = #{record.items,jdbcType=INTEGER},
+      </if>
+      <if test="record.hits != null">
+        hits = #{record.hits,jdbcType=INTEGER},
+      </if>
+      <if test="record.listorder != null">
+        listorder = #{record.listorder,jdbcType=INTEGER},
+      </if>
+      <if test="record.ismenu != null">
+        ismenu = #{record.ismenu,jdbcType=INTEGER},
+      </if>
+      <if test="record.sethtml != null">
+        sethtml = #{record.sethtml,jdbcType=INTEGER},
+      </if>
+      <if test="record.letter != null">
+        letter = #{record.letter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usableType != null">
+        usable_type = #{record.usableType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commenttypeid != null">
+        commenttypeid = #{record.commenttypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.arrchildid != null">
+        arrchildid = #{record.arrchildid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.setting != null">
+        setting = #{record.setting,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.additional != null">
+        additional = #{record.additional,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tb_category
+    set catid = #{record.catid,jdbcType=INTEGER},
+      module = #{record.module,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      modelid = #{record.modelid,jdbcType=INTEGER},
+      parentid = #{record.parentid,jdbcType=INTEGER},
+      arrparentid = #{record.arrparentid,jdbcType=VARCHAR},
+      child = #{record.child,jdbcType=INTEGER},
+      catname = #{record.catname,jdbcType=VARCHAR},
+      style = #{record.style,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      parentdir = #{record.parentdir,jdbcType=VARCHAR},
+      catdir = #{record.catdir,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      items = #{record.items,jdbcType=INTEGER},
+      hits = #{record.hits,jdbcType=INTEGER},
+      listorder = #{record.listorder,jdbcType=INTEGER},
+      ismenu = #{record.ismenu,jdbcType=INTEGER},
+      sethtml = #{record.sethtml,jdbcType=INTEGER},
+      letter = #{record.letter,jdbcType=VARCHAR},
+      usable_type = #{record.usableType,jdbcType=VARCHAR},
+      commenttypeid = #{record.commenttypeid,jdbcType=INTEGER},
+      arrchildid = #{record.arrchildid,jdbcType=LONGVARCHAR},
+      description = #{record.description,jdbcType=LONGVARCHAR},
+      setting = #{record.setting,jdbcType=LONGVARCHAR},
+      additional = #{record.additional,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_category
+    set catid = #{record.catid,jdbcType=INTEGER},
+      module = #{record.module,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      modelid = #{record.modelid,jdbcType=INTEGER},
+      parentid = #{record.parentid,jdbcType=INTEGER},
+      arrparentid = #{record.arrparentid,jdbcType=VARCHAR},
+      child = #{record.child,jdbcType=INTEGER},
+      catname = #{record.catname,jdbcType=VARCHAR},
+      style = #{record.style,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      parentdir = #{record.parentdir,jdbcType=VARCHAR},
+      catdir = #{record.catdir,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      items = #{record.items,jdbcType=INTEGER},
+      hits = #{record.hits,jdbcType=INTEGER},
+      listorder = #{record.listorder,jdbcType=INTEGER},
+      ismenu = #{record.ismenu,jdbcType=INTEGER},
+      sethtml = #{record.sethtml,jdbcType=INTEGER},
+      letter = #{record.letter,jdbcType=VARCHAR},
+      usable_type = #{record.usableType,jdbcType=VARCHAR},
+      commenttypeid = #{record.commenttypeid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyan.pojo.TbCategoryWithBLOBs">
+    update tb_category
+    <set>
+      <if test="module != null">
+        module = #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="modelid != null">
+        modelid = #{modelid,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null">
+        parentid = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="arrparentid != null">
+        arrparentid = #{arrparentid,jdbcType=VARCHAR},
+      </if>
+      <if test="child != null">
+        child = #{child,jdbcType=INTEGER},
+      </if>
+      <if test="catname != null">
+        catname = #{catname,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null">
+        style = #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="parentdir != null">
+        parentdir = #{parentdir,jdbcType=VARCHAR},
+      </if>
+      <if test="catdir != null">
+        catdir = #{catdir,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="items != null">
+        items = #{items,jdbcType=INTEGER},
+      </if>
+      <if test="hits != null">
+        hits = #{hits,jdbcType=INTEGER},
+      </if>
+      <if test="listorder != null">
+        listorder = #{listorder,jdbcType=INTEGER},
+      </if>
+      <if test="ismenu != null">
+        ismenu = #{ismenu,jdbcType=INTEGER},
+      </if>
+      <if test="sethtml != null">
+        sethtml = #{sethtml,jdbcType=INTEGER},
+      </if>
+      <if test="letter != null">
+        letter = #{letter,jdbcType=VARCHAR},
+      </if>
+      <if test="usableType != null">
+        usable_type = #{usableType,jdbcType=VARCHAR},
+      </if>
+      <if test="commenttypeid != null">
+        commenttypeid = #{commenttypeid,jdbcType=INTEGER},
+      </if>
+      <if test="arrchildid != null">
+        arrchildid = #{arrchildid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="setting != null">
+        setting = #{setting,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="additional != null">
+        additional = #{additional,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where catid = #{catid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wyan.pojo.TbCategoryWithBLOBs">
+    update tb_category
+    set module = #{module,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      modelid = #{modelid,jdbcType=INTEGER},
+      parentid = #{parentid,jdbcType=INTEGER},
+      arrparentid = #{arrparentid,jdbcType=VARCHAR},
+      child = #{child,jdbcType=INTEGER},
+      catname = #{catname,jdbcType=VARCHAR},
+      style = #{style,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      parentdir = #{parentdir,jdbcType=VARCHAR},
+      catdir = #{catdir,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      items = #{items,jdbcType=INTEGER},
+      hits = #{hits,jdbcType=INTEGER},
+      listorder = #{listorder,jdbcType=INTEGER},
+      ismenu = #{ismenu,jdbcType=INTEGER},
+      sethtml = #{sethtml,jdbcType=INTEGER},
+      letter = #{letter,jdbcType=VARCHAR},
+      usable_type = #{usableType,jdbcType=VARCHAR},
+      commenttypeid = #{commenttypeid,jdbcType=INTEGER},
+      arrchildid = #{arrchildid,jdbcType=LONGVARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR},
+      setting = #{setting,jdbcType=LONGVARCHAR},
+      additional = #{additional,jdbcType=LONGVARCHAR}
+    where catid = #{catid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyan.pojo.TbCategory">
+    update tb_category
+    set module = #{module,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      modelid = #{modelid,jdbcType=INTEGER},
+      parentid = #{parentid,jdbcType=INTEGER},
+      arrparentid = #{arrparentid,jdbcType=VARCHAR},
+      child = #{child,jdbcType=INTEGER},
+      catname = #{catname,jdbcType=VARCHAR},
+      style = #{style,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      parentdir = #{parentdir,jdbcType=VARCHAR},
+      catdir = #{catdir,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      items = #{items,jdbcType=INTEGER},
+      hits = #{hits,jdbcType=INTEGER},
+      listorder = #{listorder,jdbcType=INTEGER},
+      ismenu = #{ismenu,jdbcType=INTEGER},
+      sethtml = #{sethtml,jdbcType=INTEGER},
+      letter = #{letter,jdbcType=VARCHAR},
+      usable_type = #{usableType,jdbcType=VARCHAR},
+      commenttypeid = #{commenttypeid,jdbcType=INTEGER}
+    where catid = #{catid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyan.mapper.TbHaomaMapper">
+  <resultMap id="BaseResultMap" type="com.wyan.pojo.TbHaoma">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="cell_num" jdbcType="VARCHAR" property="cellNum" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="seller" jdbcType="VARCHAR" property="seller" />
+    <result column="wangluo" jdbcType="VARCHAR" property="wangluo" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="sale_price" jdbcType="INTEGER" property="salePrice" />
+    <result column="agent_price" jdbcType="INTEGER" property="agentPrice" />
+    <result column="huafei" jdbcType="INTEGER" property="huafei" />
+    <result column="dixiao" jdbcType="INTEGER" property="dixiao" />
+    <result column="infomation" jdbcType="VARCHAR" property="infomation" />
+    <result column="service_num" jdbcType="VARCHAR" property="serviceNum" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="recommonded" jdbcType="INTEGER" property="recommonded" />
+    <result column="selltime" jdbcType="INTEGER" property="selltime" />
+    <result column="share" jdbcType="INTEGER" property="share" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="seller_brand" jdbcType="VARCHAR" property="sellerBrand" />
+    <result column="agent_id" jdbcType="BIGINT" property="agentId" />
+    <result column="haoduan" jdbcType="VARCHAR" property="haoduan" />
+    <result column="xf_year" jdbcType="INTEGER" property="xfYear" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, status, cell_num, city_name, seller, wangluo, price, sale_price, agent_price, 
+    huafei, dixiao, infomation, service_num, addtime, recommonded, selltime, share, type, 
+    province_name, seller_brand, agent_id, haoduan,xf_year,category
+  </sql>
+  <select id="selectByExample" parameterType="com.wyan.pojo.TbHaomaExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_haoma
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_haoma
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_haoma
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyan.pojo.TbHaomaExample">
+    delete from tb_haoma
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyan.pojo.TbHaoma">
+    insert into tb_haoma (id, status, cell_num, 
+      city_name, seller, wangluo, 
+      price, sale_price, agent_price, 
+      huafei, dixiao, infomation, 
+      service_num, addtime, recommonded, 
+      selltime, share, type, 
+      province_name, seller_brand, agent_id, 
+      haoduan,xf_year,netnum)
+    values (#{id,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{cellNum,jdbcType=VARCHAR},
+      #{cityName,jdbcType=VARCHAR}, #{seller,jdbcType=VARCHAR}, #{wangluo,jdbcType=VARCHAR}, 
+      #{price,jdbcType=INTEGER}, #{salePrice,jdbcType=INTEGER}, #{agentPrice,jdbcType=INTEGER}, 
+      #{huafei,jdbcType=INTEGER}, #{dixiao,jdbcType=INTEGER}, #{infomation,jdbcType=VARCHAR}, 
+      #{serviceNum,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, #{recommonded,jdbcType=INTEGER}, 
+      #{selltime,jdbcType=TIMESTAMP}, #{share,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
+      #{provinceName,jdbcType=VARCHAR}, #{sellerBrand,jdbcType=VARCHAR}, #{agentId,jdbcType=BIGINT}, 
+      #{haoduan,jdbcType=VARCHAR}, #{xfYear,jdbcType=INTEGER}, #{netNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyan.pojo.TbHaoma">
+    insert into tb_haoma
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="cellNum != null">
+        cell_num,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="seller != null">
+        seller,
+      </if>
+      <if test="wangluo != null">
+        wangluo,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="salePrice != null">
+        sale_price,
+      </if>
+      <if test="agentPrice != null">
+        agent_price,
+      </if>
+      <if test="huafei != null">
+        huafei,
+      </if>
+      <if test="dixiao != null">
+        dixiao,
+      </if>
+      <if test="infomation != null">
+        infomation,
+      </if>
+      <if test="serviceNum != null">
+        service_num,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="recommonded != null">
+        recommonded,
+      </if>
+      <if test="selltime != null">
+        selltime,
+      </if>
+      <if test="share != null">
+        share,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="provinceName != null">
+        province_name,
+      </if>
+      <if test="sellerBrand != null">
+        seller_brand,
+      </if>
+      <if test="agentId != null">
+        agent_id,
+      </if>
+      <if test="haoduan != null">
+        haoduan,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cellNum != null">
+        #{cellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="seller != null">
+        #{seller,jdbcType=VARCHAR},
+      </if>
+      <if test="wangluo != null">
+        #{wangluo,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="salePrice != null">
+        #{salePrice,jdbcType=INTEGER},
+      </if>
+      <if test="agentPrice != null">
+        #{agentPrice,jdbcType=INTEGER},
+      </if>
+      <if test="huafei != null">
+        #{huafei,jdbcType=INTEGER},
+      </if>
+      <if test="dixiao != null">
+        #{dixiao,jdbcType=INTEGER},
+      </if>
+      <if test="infomation != null">
+        #{infomation,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceNum != null">
+        #{serviceNum,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recommonded != null">
+        #{recommonded,jdbcType=INTEGER},
+      </if>
+      <if test="selltime != null">
+        #{selltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="share != null">
+        #{share,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null">
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerBrand != null">
+        #{sellerBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null">
+        #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="haoduan != null">
+        #{haoduan,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyan.pojo.TbHaomaExample" resultType="java.lang.Long">
+    select count(*) from tb_haoma
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_haoma
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.cellNum != null">
+        cell_num = #{record.cellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityName != null">
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.seller != null">
+        seller = #{record.seller,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wangluo != null">
+        wangluo = #{record.wangluo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.salePrice != null">
+        sale_price = #{record.salePrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.agentPrice != null">
+        agent_price = #{record.agentPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.huafei != null">
+        huafei = #{record.huafei,jdbcType=INTEGER},
+      </if>
+      <if test="record.dixiao != null">
+        dixiao = #{record.dixiao,jdbcType=INTEGER},
+      </if>
+      <if test="record.infomation != null">
+        infomation = #{record.infomation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceNum != null">
+        service_num = #{record.serviceNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtime != null">
+        addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.recommonded != null">
+        recommonded = #{record.recommonded,jdbcType=INTEGER},
+      </if>
+      <if test="record.selltime != null">
+        selltime = #{record.selltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.share != null">
+        share = #{record.share,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceName != null">
+        province_name = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellerBrand != null">
+        seller_brand = #{record.sellerBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentId != null">
+        agent_id = #{record.agentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.haoduan != null">
+        haoduan = #{record.haoduan,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_haoma
+    set id = #{record.id,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      cell_num = #{record.cellNum,jdbcType=VARCHAR},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      seller = #{record.seller,jdbcType=VARCHAR},
+      wangluo = #{record.wangluo,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=INTEGER},
+      sale_price = #{record.salePrice,jdbcType=INTEGER},
+      agent_price = #{record.agentPrice,jdbcType=INTEGER},
+      huafei = #{record.huafei,jdbcType=INTEGER},
+      dixiao = #{record.dixiao,jdbcType=INTEGER},
+      infomation = #{record.infomation,jdbcType=VARCHAR},
+      service_num = #{record.serviceNum,jdbcType=VARCHAR},
+      addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      recommonded = #{record.recommonded,jdbcType=INTEGER},
+      selltime = #{record.selltime,jdbcType=TIMESTAMP},
+      share = #{record.share,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=VARCHAR},
+      province_name = #{record.provinceName,jdbcType=VARCHAR},
+      seller_brand = #{record.sellerBrand,jdbcType=VARCHAR},
+      agent_id = #{record.agentId,jdbcType=BIGINT},
+      haoduan = #{record.haoduan,jdbcType=VARCHAR},
+      xf_year = #{xfYear,jdbcType=INTEGER},
+    category =#{category,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyan.pojo.TbHaoma">
+    update tb_haoma
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cellNum != null">
+        cell_num = #{cellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="seller != null">
+        seller = #{seller,jdbcType=VARCHAR},
+      </if>
+      <if test="wangluo != null">
+        wangluo = #{wangluo,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="salePrice != null">
+        sale_price = #{salePrice,jdbcType=INTEGER},
+      </if>
+      <if test="agentPrice != null">
+        agent_price = #{agentPrice,jdbcType=INTEGER},
+      </if>
+      <if test="huafei != null">
+        huafei = #{huafei,jdbcType=INTEGER},
+      </if>
+      <if test="dixiao != null">
+        dixiao = #{dixiao,jdbcType=INTEGER},
+      </if>
+      <if test="infomation != null">
+        infomation = #{infomation,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceNum != null">
+        service_num = #{serviceNum,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recommonded != null">
+        recommonded = #{recommonded,jdbcType=INTEGER},
+      </if>
+      <if test="selltime != null">
+        selltime = #{selltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="share != null">
+        share = #{share,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null">
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerBrand != null">
+        seller_brand = #{sellerBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null">
+        agent_id = #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="haoduan != null">
+        haoduan = #{haoduan,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyan.pojo.TbHaoma">
+    update tb_haoma
+    set status = #{status,jdbcType=INTEGER},
+      cell_num = #{cellNum,jdbcType=VARCHAR},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      seller = #{seller,jdbcType=VARCHAR},
+      wangluo = #{wangluo,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      sale_price = #{salePrice,jdbcType=INTEGER},
+      agent_price = #{agentPrice,jdbcType=INTEGER},
+      huafei = #{huafei,jdbcType=INTEGER},
+      dixiao = #{dixiao,jdbcType=INTEGER},
+      infomation = #{infomation,jdbcType=VARCHAR},
+      service_num = #{serviceNum,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      recommonded = #{recommonded,jdbcType=INTEGER},
+      selltime = #{selltime,jdbcType=TIMESTAMP},
+      share = #{share,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      province_name = #{provinceName,jdbcType=VARCHAR},
+      seller_brand = #{sellerBrand,jdbcType=VARCHAR},
+      agent_id = #{agentId,jdbcType=BIGINT},
+      haoduan = #{haoduan,jdbcType=VARCHAR},
+      xf_year = #{xfYear,jdbcType=INTEGER},
+    category =#{category,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="false">
+    insert into tb_haoma
+    ( id,status,cell_Num,city_Name,seller,wangluo,price,sale_Price,
+    agent_Price,huafei,dixiao,infomation,service_Num,addtime,recommonded,
+    selltime,share,type,province_Name,seller_Brand,agent_Id,haoduan,xf_year)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+      #{item.id,jdbcType=VARCHAR},
+      #{item.status,jdbcType=INTEGER},
+      #{item.cellNum,jdbcType=VARCHAR},
+      #{item.cityName,jdbcType=VARCHAR},
+      #{item.seller,jdbcType=VARCHAR},
+      #{item.wangluo,jdbcType=VARCHAR},
+      #{item.price,jdbcType=INTEGER},
+      #{item.salePrice,jdbcType=INTEGER},
+      #{item.agentPrice,jdbcType=INTEGER},
+      #{item.huafei,jdbcType=INTEGER},
+      #{item.dixiao,jdbcType=INTEGER},
+      #{item.infomation,jdbcType=VARCHAR},
+      #{item.serviceNum,jdbcType=VARCHAR},
+      #{item.addtime,jdbcType=TIMESTAMP},
+      #{item.recommonded,jdbcType=INTEGER},
+      #{item.selltime,jdbcType=TIMESTAMP},
+      #{item.share,jdbcType=INTEGER},
+      #{item.type,jdbcType=VARCHAR},
+      #{item.provinceName,jdbcType=VARCHAR},
+      #{item.sellerBrand,jdbcType=VARCHAR},
+      #{item.agentId,jdbcType=BIGINT},
+      #{item.haoduan,jdbcType=VARCHAR},
+      #{item.xfYear,jdbcType=INTEGER}
+      )
+    </foreach>
+  </insert>
+
+  <select id="totalNum" resultType="long">
+    select count(1) from tb_haoma
+  </select>
+</mapper>
